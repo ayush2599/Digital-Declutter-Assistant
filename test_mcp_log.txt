@@ -1,0 +1,61 @@
+Testing MCP Connection...
+--- Testing gmail ---
+FAILURE: Failed to create MCP session: 
+Traceback (most recent call last):
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\anyio\streams\memory.py", line 111, in receive
+    return self.receive_nowait()
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\anyio\streams\memory.py", line 106, in receive_nowait
+    raise WouldBlock
+anyio.WouldBlock
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python313\Lib\asyncio\tasks.py", line 507, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\mcp\client\session.py", line 152, in initialize
+    result = await self.send_request(
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<15 lines>...
+    )
+    ^
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\mcp\shared\session.py", line 274, in send_request
+    response_or_error = await response_stream_reader.receive()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\anyio\streams\memory.py", line 119, in receive
+    await receive_event.wait()
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\anyio\_backends\_asyncio.py", line 1774, in wait
+    await self._event.wait()
+  File "C:\Python313\Lib\asyncio\locks.py", line 213, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\google\adk\tools\mcp_tool\mcp_session_manager.py", line 370, in create_session
+    await asyncio.wait_for(session.initialize(), timeout=timeout_in_seconds)
+  File "C:\Python313\Lib\asyncio\tasks.py", line 506, in wait_for
+    async with timeouts.timeout(timeout):
+               ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Python313\Lib\asyncio\timeouts.py", line 116, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\Learnings\Dev Projects\gmail_declutter\digital_declutter\test_mcp_connection.py", line 35, in test_mcp
+    tools = await toolset.get_tools()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\google\adk\tools\mcp_tool\mcp_session_manager.py", line 128, in wrapper
+    return await func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\google\adk\tools\mcp_tool\mcp_toolset.py", line 178, in get_tools
+    session = await self._mcp_session_manager.create_session(headers=headers)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ayush\AppData\Roaming\Python\Python313\site-packages\google\adk\tools\mcp_tool\mcp_session_manager.py", line 386, in create_session
+    raise ConnectionError(f'Failed to create MCP session: {e}') from e
+ConnectionError: Failed to create MCP session: 

@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Node/Frontend
+node_modules/
+dist/
+build/
+.DS_Store
+coverage/
+.npm/
+
+# Project Specific - Sensitive
+digital_declutter/credentials.json
+digital_declutter/token.json
+digital_declutter/.env
+digital_declutter/mcp_config.json
+credentials.json
+token.json
+.env
+
+# Logs and Temporary files
+*.log
+debug_log.txt
+test_output.log
+test_notion_output.txt
+test_e2e_output.txt
+standalone_log.txt
+mcp_config.json

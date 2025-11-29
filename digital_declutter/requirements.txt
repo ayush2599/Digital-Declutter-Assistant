@@ -1,0 +1,12 @@
+google-adk
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+notion-client
+python-dotenv
+pandas
+ipykernel
+nest_asyncio
+mcp
+fastapi
+uvicorn
