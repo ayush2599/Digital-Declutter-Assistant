@@ -4,6 +4,30 @@ A smart email assistant that helps you triage, clean, and manage your inbox effo
 
 ---
 
+## 📌 Problem Statement
+
+In the modern digital age, email overload has become a major productivity barrier. Important emails get lost in the clutter, promotions pile up, and task-related emails are forgotten. Manual triage is time-consuming and mentally draining. Users need a proactive, intelligent system that helps them:
+
+* Stay on top of important communications
+* Quickly take actions like delete/archive without manual effort
+* Create tasks from actionable emails
+* Remember user preferences for recurring senders
+
+---
+
+## 💡 Project Proposal
+
+**Digital Declutter Assistant** is a capstone project designed to showcase a multi-tool conversational agent built using Google ADK. It reads a user's Gmail inbox, categorizes emails, seeks user input, and acts accordingly. It stores user preferences (like "always delete emails from X") to personalize future actions. With a React-based chat UI and FastAPI backend, it ensures a seamless experience.
+
+Key Goals:
+
+* Automate email triage and reduce mental overhead
+* Create Notion tasks from important emails
+* Provide a human-in-the-loop for safety and trust
+* Leverage agent memory and preferences to improve over time
+
+---
+
 ## 🚀 Features
 
 * 📬 Fetch recent emails from Gmail
@@ -164,7 +188,7 @@ gmail_declutter/
 
 ## 🙌 Credits
 
-* Built as a capstone for the Google ADK course
+* Built with ❤️ by Ayush as part of learning for the Google x Kaggle Agent Intensive Course
 * Powered by Gemini + ADK + Gmail + Notion APIs
 
 ---
