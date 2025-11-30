@@ -1,5 +1,8 @@
 # 🧹 Digital Declutter Assistant
 
+![Project Status](https://img.shields.io/badge/Status-Complete-success)
+![Tech Stack](https://img.shields.io/badge/Stack-React_|_FastAPI_|_Gemini_|_MCP-blue)
+
 A smart email assistant that helps you triage, clean, and manage your inbox effortlessly. Built using Google ADK, Gemini LLM, custom tools, and a modern web UI, it fetches recent emails, categorizes them intelligently, and helps you take actions with confidence.
 
 ---
