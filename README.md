@@ -42,6 +42,27 @@ Key Goals:
 
 ---
 
+
+## 🏗️ Architecture
+
+The application follows a modern **Client-Server** architecture:
+
+1.  **Frontend**:
+    *   **React + Vite**: A fast, responsive Single Page Application (SPA).
+    *   **Tailwind CSS**: Styled to mimic the clean, familiar aesthetic of Gmail.
+    *   **Chat Interface**: Real-time interaction with the agent.
+
+2.  **Backend**:
+    *   **FastAPI (Python)**: Hosts the Agent and exposes a REST API (`/chat`).
+    *   **Google ADK**: Manages the agent's lifecycle, session state, and tool execution.
+    *   **Lazy Initialization**: Optimized startup to handle MCP server connections robustly.
+
+3.  **Integrations**:
+    *   **Gmail API**: Direct integration via Google Client Library.
+    *   **Notion API**: Integrated via a custom **Python MCP Server** (`mcp_server_notion.py`).
+
+---
+
 ## 🔄 User Journey
 
 1. **User opens the app** and sees a chat interface
@@ -126,44 +147,79 @@ gmail_declutter/
 
 ---
 
-## 🛠 Setup Instructions
+## 🚀 Setup Guide
 
-### Backend (Python)
+Since this project handles sensitive data (emails, tasks), all credentials are **gitignored**. Follow these steps to set up your local environment.
 
-1. Create a virtual environment:
+### Prerequisites
+*   Python 3.10+
+*   Node.js & npm
+*   Google Cloud Project with **Gmail API** enabled.
+*   Notion Integration Token.
 
-   ```bash
-   python -m venv venv && source venv/bin/activate
-   ```
-2. Install dependencies:
+### 1. Clone the Repository
+```bash
+git clone https://github.com/ayush2599/Digital-Declutter-Assistant.git
+cd Digital-Declutter-Assistant
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Setup Gmail API credentials (OAuth flow via `gmail_tool.py`)
-4. Start backend server:
+### 2. Backend Configuration
+Create a `.env` file in the root directory:
+```env
+GOOGLE_API_KEY=your_gemini_api_key
+NOTION_API_KEY=your_notion_integration_token
+NOTION_DATABASE_ID=your_notion_database_id
+```
 
-   ```bash
-   uvicorn server:app --reload
-   ```
+**Gmail Credentials:**
+1.  Download your OAuth 2.0 Client ID JSON from Google Cloud Console.
+2.  Save it as `digital_declutter/credentials.json`.
+3.  *Note: On first run, the app will open a browser to authenticate you and generate `digital_declutter/token.json`.*
 
-### Frontend (React + Vite)
+### 3. Install Dependencies
 
-1. Navigate to `frontend/`:
+**Backend:**
+```bash
+pip install -r digital_declutter/requirements.txt
+```
 
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
+**Frontend:**
+```bash
+cd frontend
+npm install
+```
 
-   ```bash
-   npm install
-   ```
-3. Start development server:
+### 4. Run the Application
 
-   ```bash
-   npm run dev
-   ```
+**Step 1: Start the Backend**
+Open a terminal in the root directory:
+```bash
+python backend/server.py
+```
+*Wait for the server to start on `http://127.0.0.1:8000`.*
+
+**Step 2: Start the Frontend**
+Open a new terminal in the `frontend` directory:
+```bash
+npm run dev
+```
+*The app will open at `http://localhost:5173`.*
+
+---
+
+## 🎮 How to Use
+
+1.  **Fetch Emails**:
+    > "Fetch my emails from the last 3 days."
+    > "Show me unread emails from 'Zerodha'."
+
+2.  **Create Tasks**:
+    > "Create a task in Notion for the email about the project deadline."
+    > "Add a task 'Buy Groceries' with description 'Milk, Eggs, Bread'."
+
+3.  **Manage Rules**:
+    > "Emails from 'HR' are always important."
+    > "Archive all newsletters from 'Marketing'."
 
 ---
 
