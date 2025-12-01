@@ -258,4 +258,4 @@ npm run dev
 
 ---
 
-> Ready to declutter your inbox li
+> Ready to declutter your inbox like a pro ✨
