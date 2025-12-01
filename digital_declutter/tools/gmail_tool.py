@@ -38,27 +38,45 @@ class GmailService:
         """Shows basic usage of the Gmail API.
         Lists the user's Gmail labels.
         """
+        print(f"DEBUG: Checking for token at {self.token_path}")
         if os.path.exists(self.token_path):
-            self.creds = Credentials.from_authorized_user_file(self.token_path, SCOPES)
+            print("DEBUG: Token file found.")
+            try:
+                self.creds = Credentials.from_authorized_user_file(self.token_path, SCOPES)
+            except Exception as e:
+                print(f"DEBUG: Error loading token: {e}")
+                self.creds = None
+        else:
+            print("DEBUG: Token file NOT found.")
         
         # If there are no (valid) credentials available, let the user log in.
         if not self.creds or not self.creds.valid:
+            print("DEBUG: Credentials invalid or missing. Starting auth flow...")
             if self.creds and self.creds.expired and self.creds.refresh_token:
-                self.creds.refresh(Request())
-            else:
+                print("DEBUG: Refreshing expired token...")
+                try:
+                    self.creds.refresh(Request())
+                except Exception as e:
+                    print(f"DEBUG: Refresh failed: {e}. forcing new login.")
+                    self.creds = None
+            
+            if not self.creds:
                 if not os.path.exists(self.credentials_path):
                     raise FileNotFoundError(f"Credentials file not found at {self.credentials_path}. Please download it from Google Cloud Console.")
                 
+                print("DEBUG: Launching local server for OAuth...")
                 flow = InstalledAppFlow.from_client_secrets_file(
                     self.credentials_path, SCOPES)
                 self.creds = flow.run_local_server(port=0)
             
             # Save the credentials for the next run
+            print(f"DEBUG: Saving new token to {self.token_path}")
             with open(self.token_path, 'w') as token:
                 token.write(self.creds.to_json())
 
         try:
             self.service = build('gmail', 'v1', credentials=self.creds)
+            print("DEBUG: Gmail service built successfully.")
         except HttpError as error:
             print(f'An error occurred: {error}')
 

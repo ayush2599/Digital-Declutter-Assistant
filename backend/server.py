@@ -60,49 +60,64 @@ async def ensure_agent_initialized():
             traceback.print_exc()
             raise HTTPException(status_code=503, detail=f"Failed to initialize agent: {str(e)}")
 
+def debug_log(message: str):
+    """Log message to debug.log with timestamp"""
+    import datetime
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_entry = f"[{timestamp}] {message}\n"
+    print(log_entry.strip())
+    with open("debug.log", "a", encoding="utf-8") as f:
+        f.write(log_entry)
+
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
+    debug_log(f"Received chat request: {request.message}")
+    
     # Initialize agent on first request
-    await ensure_agent_initialized()
+    try:
+        await ensure_agent_initialized()
+    except Exception as e:
+        debug_log(f"Agent initialization failed: {e}")
+        raise HTTPException(status_code=503, detail=f"Agent initialization failed: {e}")
     
     global runner
     if not runner:
+        debug_log("Error: Agent not initialized after ensure_agent_initialized")
         raise HTTPException(status_code=503, detail="Agent not initialized")
-    
-    print(f"User: {request.message}")
     
     try:
         message = types.Content(parts=[types.Part(text=request.message)])
         full_response = ""
         
+        debug_log("Starting agent run loop...")
         async for event in runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=message):
-            print(f"DEBUG Event: type={type(event)}, is_final={event.is_final_response() if hasattr(event, 'is_final_response') else 'N/A'}")
+            # Log event type
+            event_type = type(event).__name__
+            debug_log(f"Event received: {event_type}")
             
             if hasattr(event, 'content') and event.content:
-                print(f"DEBUG Content: {event.content}")
+                debug_log(f"Event content: {event.content}")
             
-            # Capture text from any event that has it, just to be safe for now
+            # Capture text from any event that has it
             if hasattr(event, 'content') and event.content and event.content.parts:
                 for part in event.content.parts:
                     if hasattr(part, "text") and part.text:
-                        print(f"DEBUG Text Part: {part.text}")
+                        debug_log(f"Text part received: {part.text[:50]}...")
                         full_response += part.text
             
-            # Also check for tool calls/responses to understand flow
+            # Check for tool calls
             if hasattr(event, 'tool_call') and event.tool_call:
-                print(f"DEBUG Tool Call: {event.tool_call}")
+                debug_log(f"Tool Call: {event.tool_call}")
             if hasattr(event, 'tool_response') and event.tool_response:
-                print(f"DEBUG Tool Response: {event.tool_response}")
+                debug_log(f"Tool Response: {event.tool_response}")
 
-        print(f"Agent Final Response: {full_response}")
+        debug_log(f"Agent run completed. Final response length: {len(full_response)}")
         return ChatResponse(response=full_response)
         
     except Exception as e:
         import traceback
         error_msg = f"Error during chat: {e}\n{traceback.format_exc()}"
-        print(error_msg)
-        with open("error.log", "w") as f:
-            f.write(error_msg)
+        debug_log(f"EXCEPTION: {error_msg}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/health")

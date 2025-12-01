@@ -78,8 +78,8 @@ export default function App() {
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-3xl px-5 py-3 ${msg.role === 'user'
-                    ? 'bg-blue-100 rounded-2xl rounded-tr-sm'
-                    : 'bg-white border border-gray-200 rounded-2xl rounded-tl-sm shadow-sm'
+                  ? 'bg-blue-100 rounded-2xl rounded-tr-sm'
+                  : 'bg-white border border-gray-200 rounded-2xl rounded-tl-sm shadow-sm'
                   }`}>
                   <div className="flex items-center space-x-2 mb-1">
                     <span className={`font-semibold text-xs ${msg.role === 'user' ? 'text-blue-800' : 'text-gray-700'}`}>
@@ -90,7 +90,18 @@ export default function App() {
                     </span>
                   </div>
                   <div className="prose prose-sm max-w-none text-gray-800 leading-relaxed">
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    <ReactMarkdown
+                      components={{
+                        h3: ({ node, ...props }) => <h3 className="text-md font-bold text-gray-800 mt-6 mb-3 bg-blue-50 p-2 rounded-lg border-l-4 border-blue-500" {...props} />,
+                        ul: ({ node, ...props }) => <ul className="space-y-3 mb-4" {...props} />,
+                        li: ({ node, ...props }) => <li className="text-gray-700 bg-white p-3 rounded-md border border-gray-100 shadow-sm text-sm leading-relaxed" {...props} />,
+                        blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-green-500 bg-green-50 p-4 rounded-r-lg my-4 text-gray-800 shadow-sm" {...props} />,
+                        strong: ({ node, ...props }) => <span className="font-bold text-gray-900" {...props} />,
+                        p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
                   </div>
                 </div>
               </div>

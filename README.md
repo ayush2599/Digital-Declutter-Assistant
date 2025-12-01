@@ -1,5 +1,7 @@
 # 🧹 Digital Declutter Assistant
 
+![Digital Declutter Assistant Cover](cover_image.png)
+
 ![Project Status](https://img.shields.io/badge/Status-Complete-success)
 ![Tech Stack](https://img.shields.io/badge/Stack-React_|_FastAPI_|_Gemini_|_MCP-blue)
 
@@ -19,6 +21,8 @@ In the modern digital age, email overload has become a major productivity barrie
 ---
 
 ## 💡 Project Proposal
+
+![Digital Declutter Assistant High-level Architecture](architecture_diagram.png)
 
 **Digital Declutter Assistant** is a capstone project designed to showcase a multi-tool conversational agent built using Google ADK. It reads a user's Gmail inbox, categorizes emails, seeks user input, and acts accordingly. It stores user preferences (like "always delete emails from X") to personalize future actions. With a React-based chat UI and FastAPI backend, it ensures a seamless experience.
 
@@ -44,6 +48,8 @@ Key Goals:
 
 
 ## 🏗️ Architecture
+
+![Digital Declutter Assistant Architecture](Technical_Architecture_Diagram.JPG)
 
 The application follows a modern **Client-Server** architecture:
 
